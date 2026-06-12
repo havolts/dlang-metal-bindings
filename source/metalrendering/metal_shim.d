@@ -1,109 +1,15 @@
 //metalrendering/source/metalrendering/metal_shim.d
 module metalrendering.metal_shim;
+
+import metalrendering.device;
+import metalrendering.types;
 import std.stdio;
 import core.memory;
 
-//Non-specific
-MTLDevice MTLCreateSystemDefaultDevice()
-{
-    return new MTLDevice(metal_MTLCreateSystemDefaultDevice());
-}
-
 extern (C)
 {
-    void* metal_MTLCreateSystemDefaultDevice();
     void metal_release_object(void* obj);
     void metal_retain_object(void* obj);
-
-}
-
-//MTLDevice
-class MTLDevice
-{
-    void* ptr;
-
-    this(void* device)
-    {
-        this.ptr = device;
-    }
-
-    MTLCommandQueue makeCommandQueue()
-    {
-        MTLCommandQueue queue = new MTLCommandQueue(metal_makeCommandQueue(ptr));
-        return queue;
-    }
-
-    MTLLibrary makeLibrary(string source)
-    {
-        return new MTLLibrary(metal_makeLibrary(this.ptr, source.ns));
-    }
-
-    MTLBuffer makeBuffer(const(float)[] vertices, size_t length)
-    {
-        void* buffer = metal_makeBuffer(this.ptr, cast(void*) vertices.ptr, length);
-        return new MTLBuffer(buffer);
-    }
-
-    MTLRenderPipelineState makeRenderPipelineState(
-        MTLRenderPipelineDescriptor renderpipelinedescriptor)
-    {
-        return new MTLRenderPipelineState(metal_MTLDevice_makeRenderPipelineState(this.ptr, renderpipelinedescriptor
-                .ptr));
-    }
-
-    ~this()
-    {
-        metal_release_object(this.ptr);
-    }
-}
-
-extern (C)
-{
-    void* metal_makeCommandQueue(void* device);
-    void* metal_makeLibrary(void* device, void* source);
-    void* metal_makeBuffer(void* device, void* bytes, size_t length);
-    void* metal_MTLDevice_makeRenderPipelineState(
-        void* device, void* mtlrenderpipelinedescriptor);
-}
-
-//CGRect
-extern (C) struct CGPoint
-{
-    double x;
-    double y;
-}
-
-extern (C) struct CGSize
-{
-    double width;
-    double height;
-}
-
-extern (C) struct CGRect
-{
-    CGPoint origin;
-    CGSize size;
-    this(double x, double y, double width, double height)
-    {
-        origin = CGPoint(x, y);
-        size = CGSize(width, height);
-    }
-}
-
-//MTLClearColor
-struct MTLClearColor
-{
-    double red;
-    double green;
-    double blue;
-    double alpha;
-    this(double r, double g, double b, double a)
-    {
-        red = r;
-        green = g;
-        blue = b;
-        alpha = a;
-    }
 }
 
 extern (C)
@@ -146,12 +52,12 @@ class MTKView
 
     @property MTLPixelFormat colorPixelFormat()
     {
-        return MTLPixelFormat(metal_get_colorPixelFormat(ptr));
+        return cast(MTLPixelFormat) metal_get_colorPixelFormat(ptr);
     }
 
     this(MTLDevice device, CGRect frame)
     {
-        this.ptr = metal_create_MTKView(device.ptr, frame);
+        this.ptr = metal_create_MTKView(cast(void*)device, frame);
         metal_retain_object(this.ptr);
     }
 
@@ -259,13 +165,6 @@ class MTLRenderPassDescriptor
     }
 }
 
-enum MTLLoadAction
-{
-    MTLLoadActionDontCare = 0,
-    MTLLoadActionLoad = 1,
-    MTLLoadActionClear = 2,
-}
-
 //MTLRenderPassColorAttachmentDescriptor
 struct MTLRenderPassColorAttachmentDescriptor
 {
@@ -276,11 +175,6 @@ struct MTLRenderPassColorAttachmentDescriptor
     {
         _loadAction = action;
         metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(ptr, cast(int) _loadAction);
-    }
-
-    @property MTLLoadAction loadAction()
-    {
-        return _loadAction;
     }
 
     private MTLClearColor _clearColour;
@@ -352,12 +246,6 @@ extern (C)
         void* descriptor, void* val, size_t index);
 }
 
-//MTLPrimitiveType
-enum MTLPrimitiveType
-{
-    triangle = 3,
-}
-
 //MTLRenderCommandEncoder
 class MTLRenderCommandEncoder
 {
@@ -427,7 +315,7 @@ class MTLLibrary
 
     MTLFunction makeFunction(string name)
     {
-        return new MTLFunction(metal_makeFunction(this.ptr, name
+        return new MTLFunction(metal_makeFunction(this.ptr, cast(void*) name
                 .ns));
     }
 
@@ -462,23 +350,6 @@ struct MTLCompileOptions
 }
 
 import core.stdc.stdlib : malloc, free;
-
-extern (C) void* objc_getClass(
-    const(char)* name);
-extern (C) void* sel_registerhavolt(
-    const(char)* str);
-extern (C) void* objc_msgSend(void* receiver, void* selector, ...);
-
-alias NSString = void*;
-
-@property NSString ns(string s)
-{
-    auto cls = objc_getClass("NSString");
-    auto sel = sel_registerhavolt(
-        "stringWithUTF8String:");
-    return cast(NSString) objc_msgSend(cls, sel, s
-            .ptr);
-}
 
 class MTLBuffer
 {
@@ -557,10 +428,6 @@ extern (C)
         void* mtlrenderpipelinedescriptor, void* mtlfunction);
     void* metal_MTLRenderPipelineDescriptor_get_colorAttachments(void* mtlrenderpipelinedescriptor);
 }
-struct MTLPixelFormat
-{
-    int pixelFormat;
-}
 
 //MTLRenderPassColorAttachmentDescriptor
 struct MTLRenderPipelineColorAttachmentDescriptor
@@ -571,8 +438,7 @@ struct MTLRenderPipelineColorAttachmentDescriptor
         MTLPixelFormat pixelFormat)
     {
         _pixelFormat = pixelFormat;
-        metal_set_mtlrenderpipelinecolorattachmentdescriptor_pixelFormat(
-            ptr, pixelFormat.pixelFormat);
+        metal_set_mtlrenderpipelinecolorattachmentdescriptor_pixelFormat(ptr, cast(int) pixelFormat);
     }
 
     @property MTLPixelFormat pixelFormat()
