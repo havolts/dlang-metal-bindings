@@ -1,32 +1,6 @@
 //metalrendering/source/metalrendering/metal_shim.d
 module metalrendering.metal_shim;
 
-import metalrendering.device;
-import metalrendering.types;
-import std.stdio;
-import core.memory;
-
-class MTLFunction
-{
-    void* ptr;
-    this(void* mtlfunction)
-    {
-        this.ptr = mtlfunction;
-    }
-
-    ~this()
-    {
-        metal_release_object(this.ptr);
-    }
-}
-//TO BE COMPLETED
-struct MTLCompileOptions
-{
-
-}
-
-import core.stdc.stdlib : malloc, free;
-
 class MTLBuffer
 {
     void* ptr;
