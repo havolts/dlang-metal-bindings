@@ -3,7 +3,10 @@ module metalrendering.device;
 
 import core.attribute : selector;
 import metalrendering.types;
-import metalrendering.metal_shim;
+import metalrendering.commandqueue;
+import metalrendering.library;
+import metalrendering.buffer;
+import metalrendering.renderpipelinestate;
 
 //MTLDevice
 extern (Objective-C)
