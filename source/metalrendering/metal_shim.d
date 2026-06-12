@@ -6,20 +6,6 @@ import metalrendering.types;
 import std.stdio;
 import core.memory;
 
-class MTLDrawable
-{
-    void* ptr;
-    this(void* drawable)
-    {
-        this.ptr = drawable;
-    }
-
-    ~this()
-    {
-        metal_release_object(this.ptr);
-    }
-}
-
 class MTLLibrary
 {
     void* ptr;
