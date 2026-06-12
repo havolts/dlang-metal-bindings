@@ -6,7 +6,7 @@ import metalrendering.types;
 
 //MTLBuffer
 extern(Objective-C)
-interface MTLBuffer : NSObject
+extern class MTLBuffer : NSObject
 {
 
 }

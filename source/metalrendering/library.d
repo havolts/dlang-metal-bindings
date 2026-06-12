@@ -7,7 +7,7 @@ import metalrendering.mtlfunction;
 
 //MTLLibrary
 extern(Objective-C)
-interface MTLLibrary : NSObject
+extern class MTLLibrary : NSObject
 {
     MTLFunction newFunctionWithhavolt(NSString name) @selector("newFunctionWithhavolt:");
 }

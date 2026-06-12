@@ -9,7 +9,7 @@ import metalrendering.drawable;
 
 //MTKView
 extern(Objective-C)
-interface MTKView : NSObject
+extern class MTKView : NSObject
 {
     static MTKView alloc() @selector("alloc");
     MTKView initWithFrame(CGRect frame, MTLDevice device) @selector("initWithFrame:device:");

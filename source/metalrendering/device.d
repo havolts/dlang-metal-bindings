@@ -10,7 +10,7 @@ import metalrendering.renderpipeline;
 
 //MTLDevice
 extern (Objective-C)
-interface MTLDevice : NSObject
+extern class MTLDevice : NSObject
 {
     MTLCommandQueue newCommandQueue() @selector("newCommandQueue");
     MTLLibrary newLibraryWithSource(NSString source, void* options, void* error) @selector("newLibraryWithSource:options:error:");

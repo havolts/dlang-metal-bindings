@@ -6,7 +6,7 @@ import metalrendering.types;
 
 //MTLFunction
 extern(Objective-C)
-interface MTLFunction : NSObject
+extern class MTLFunction : NSObject
 {
 
 }

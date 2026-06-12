@@ -6,21 +6,21 @@ import metalrendering.types;
 
 //MTLRenderPassDescriptor
 extern(Objective-C)
-interface MTLRenderPassDescriptor : NSObject
+extern class MTLRenderPassDescriptor : NSObject
 {
     static MTLRenderPassDescriptor renderPassDescriptor() @selector("renderPassDescriptor");
     MTLRenderPassColorAttachmentDescriptorArray colorAttachments() @selector("colorAttachments");
 }
 
 extern (Objective-C)
-interface MTLRenderPassColorAttachmentDescriptor : NSObject
+extern class MTLRenderPassColorAttachmentDescriptor : NSObject
 {
     void loadAction(MTLLoadAction action) @selector("setLoadAction:");
     void clearColor(MTLClearColor color) @selector("setClearColor:");
 }
 
 extern (Objective-C)
-interface MTLRenderPassColorAttachmentDescriptorArray : NSObject
+extern class MTLRenderPassColorAttachmentDescriptorArray : NSObject
 {
     MTLRenderPassColorAttachmentDescriptor opIndex(size_t index) @selector("objectAtIndexedSubscript:");
 }

@@ -7,7 +7,7 @@ import metalrendering.mtlfunction;
 
 //MTLRenderPipelineDescriptor
 extern(Objective-C)
-interface MTLRenderPipelineDescriptor : NSObject
+extern class MTLRenderPipelineDescriptor : NSObject
 {
     static MTLRenderPipelineDescriptor alloc() @selector("alloc");
     MTLRenderPipelineDescriptor init() @selector("init");
@@ -19,20 +19,20 @@ interface MTLRenderPipelineDescriptor : NSObject
 }
 
 extern (Objective-C)
-interface MTLRenderPipelineColorAttachmentDescriptor : NSObject
+extern class MTLRenderPipelineColorAttachmentDescriptor : NSObject
 {
     MTLPixelFormat pixelFormat() @selector("pixelFormat");
     void pixelFormat(MTLPixelFormat pFormat) @selector("setPixelFormat:");
 }
 
 extern (Objective-C)
-interface MTLRenderPipelineColorAttachmentDescriptorArray : NSObject
+extern class MTLRenderPipelineColorAttachmentDescriptorArray : NSObject
 {
     MTLRenderPipelineColorAttachmentDescriptor opIndex(size_t index) @selector("objectAtIndexedSubscript:");
 }
 
 extern (Objective-C)
-interface MTLRenderPipelineState : NSObject
+extern class MTLRenderPipelineState : NSObject
 {
 
 }

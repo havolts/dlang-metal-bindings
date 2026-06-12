@@ -6,7 +6,7 @@ import metalrendering.types;
 
 //MTLDrawable
 extern(Objective-C)
-interface MTLDrawable : NSObject
+extern class MTLDrawable : NSObject
 {
     void present() @selector("present");
 }

@@ -8,7 +8,7 @@ import metalrendering.buffer;
 
 //MTLRenderCommandEncoder
 extern(Objective-C)
-interface MTLRenderCommandEncoder : NSObject
+extern class MTLRenderCommandEncoder : NSObject
 {
     void setRenderPipelineState(MTLRenderPipelineState renderPipelineState) @selector("setRenderPipelineState:");
     void setVertexBuffer(MTLBuffer vertexBuffer, uint offset, uint index) @selector("setVertexBuffer:offset:atIndex:");

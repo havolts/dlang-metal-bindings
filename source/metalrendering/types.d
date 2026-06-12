@@ -3,14 +3,14 @@ module metalrendering.types;
 import core.attribute : selector;
 
 extern (Objective-C)
-interface NSObject
+extern class NSObject
 {
     NSObject retain() @selector("retain");
     void release() @selector("release");
 }
 
 extern (Objective-C)
-interface NSString : NSObject
+extern class NSString : NSObject
 {
     static NSString stringWithUTF8String(const(char)* str) @selector("stringWithUTF8String:");
 }
@@ -22,7 +22,7 @@ NSString ns(string s)
 }
 
 extern (Objective-C)
-interface NSError : NSObject
+extern class NSError : NSObject
 {
 }
 
@@ -31,9 +31,9 @@ struct MTLClearColor
     double red, green, blue, alpha;
 }
 
-struct CGPoint { double x, y; }
-struct CGSize  { double width, height; }
-struct CGRect
+extern (C) struct CGPoint { double x, y; }
+extern (C) struct CGSize  { double width, height; }
+extern (C) struct CGRect
 {
     CGPoint origin;
     CGSize size;
