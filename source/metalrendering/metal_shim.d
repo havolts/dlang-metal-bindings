@@ -5,13 +5,12 @@ import std.stdio;
 //Non-specific
 MTLDevice MTLCreateSystemDefaultDevice()
 {
-    printf("Device created\n");
-    return new MTLDevice(metal_create_system_default_device());
+    return new MTLDevice(metal_MTLCreateSystemDefaultDevice());
 }
 
 extern (C)
 {
-    void* metal_create_system_default_device();
+    void* metal_MTLCreateSystemDefaultDevice();
     void metal_release_object(void* obj);
     void metal_retain_object(void* obj);
 
@@ -27,28 +26,45 @@ class MTLDevice
         this.ptr = device;
     }
 
-    void release()
-    {
-        printf("Device released\n");
-        metal_release_object(ptr);
-    }
-
     MTLCommandQueue makeCommandQueue()
     {
-        MTLCommandQueue queue = new MTLCommandQueue(metal_create_command_queue(ptr));
+        MTLCommandQueue queue = new MTLCommandQueue(metal_makeCommandQueue(ptr));
         return queue;
+    }
+
+    MTLLibrary makeLibrary(string source)
+    {
+        return new MTLLibrary(metal_makeLibrary(this.ptr, source.ns));
+    }
+
+    MTLBuffer makeBuffer(const(float)[] vertices, size_t length)
+    {
+        void* buffer = metal_makeBuffer(this.ptr, cast(void*) vertices.ptr, length);
+        return new MTLBuffer(buffer);
+    }
+
+    MTLRenderPipelineState makeRenderPipelineState(
+        MTLRenderPipelineDescriptor renderpipelinedescriptor)
+    {
+        return new MTLRenderPipelineState(metal_MTLDevice_makeRenderPipelineState(this.ptr, renderpipelinedescriptor
+                .ptr));
     }
 
     ~this()
     {
-        release();
+        metal_release_object(this.ptr);
     }
 }
 
 extern (C)
 {
-    void* metal_create_command_queue(void* ptr);
+    void* metal_makeCommandQueue(void* device);
+    void* metal_makeLibrary(void* device, void* source);
+    void* metal_makeBuffer(void* device, void* bytes, size_t length);
+    void* metal_MTLDevice_makeRenderPipelineState(
+        void* device, void* mtlrenderpipelinedescriptor);
 }
+
 //CGRect
 extern (C) struct CGPoint
 {
@@ -66,7 +82,6 @@ extern (C) struct CGRect
 {
     CGPoint origin;
     CGSize size;
-
     this(double x, double y, double width, double height)
     {
         origin = CGPoint(x, y);
@@ -81,7 +96,6 @@ struct MTLClearColor
     double green;
     double blue;
     double alpha;
-
     this(double r, double g, double b, double a)
     {
         red = r;
@@ -101,7 +115,8 @@ class MTKView
 {
     void* ptr;
     private MTLClearColor _clearColour;
-    @property void clearColor(MTLClearColor color)
+    @property void clearColor(
+        MTLClearColor color)
     {
         _clearColour = color;
         metal_set_MTKView_clear_color(ptr, _clearColour);
@@ -114,12 +129,18 @@ class MTKView
 
     @property MTLRenderPassDescriptor currentRenderPassDescriptor()
     {
-        return new MTLRenderPassDescriptor(metal_get_render_pass_descriptor(ptr));
+        return new MTLRenderPassDescriptor(
+            metal_get_render_pass_descriptor(ptr));
     }
 
     @property MTLDrawable currentDrawable()
     {
         return MTLDrawable(metal_get_drawable(ptr));
+    }
+
+    @property MTLPixelFormat colorPixelFormat()
+    {
+        return MTLPixelFormat(metal_get_colorPixelFormat(ptr));
     }
 
     this(MTLDevice device, CGRect frame)
@@ -141,21 +162,25 @@ extern (C)
     void* metal_create_MTKView(void* device, CGRect frame);
     void metal_set_MTKView_clear_color(void* view, MTLClearColor color);
     void* metal_get_drawable(void* view);
+    void* metal_get_render_pass_descriptor(
+        void* view);
+    int metal_get_colorPixelFormat(
+        void* view);
 }
 
 //MTLCommandQueue
 class MTLCommandQueue
 {
     void* ptr;
-
-    this(void* queue)
+    this(void* commandQueue)
     {
-        ptr = queue;
+        ptr = commandQueue;
     }
 
     MTLCommandBuffer makeCommandBuffer()
     {
-        return new MTLCommandBuffer(metal_make_command_buffer(ptr));
+        return new MTLCommandBuffer(
+            metal_make_command_buffer(ptr));
     }
 
     ~this()
@@ -166,22 +191,24 @@ class MTLCommandQueue
 
 extern (C)
 {
-    void* metal_make_command_buffer(void* queue);
+    void* metal_make_command_buffer(void* commandQueue);
 }
 
 //MTLCommandBuffer
 class MTLCommandBuffer
 {
     void* ptr;
-
     this(void* buffer)
     {
         ptr = buffer;
     }
 
-    MTLRenderCommandEncoder makeRenderCommandEncoder(MTLRenderPassDescriptor descriptor)
+    MTLRenderCommandEncoder makeRenderCommandEncoder(
+        MTLRenderPassDescriptor renderpassdescriptor)
     {
-        return new MTLRenderCommandEncoder(metal_make_render_command_encoder(ptr, descriptor.ptr));
+        return new MTLRenderCommandEncoder(
+            metal_make_render_command_encoder(ptr, renderpassdescriptor
+                .ptr));
     }
 
     void present(MTLDrawable drawable)
@@ -202,9 +229,11 @@ class MTLCommandBuffer
 
 extern (C)
 {
-    void* metal_make_render_command_encoder(void* commandBuffer, void* renderPassDescriptor);
+    void* metal_make_render_command_encoder(
+        void* commandBuffer, void* renderPassDescriptor);
     void metal_present(void* commandBuffer, void* mtldrawable);
-    void metal_commit(void* commandBuffer);
+    void metal_commit(
+        void* commandBuffer);
 }
 
 //MTLRenderPassDescriptor
@@ -213,16 +242,17 @@ class MTLRenderPassDescriptor
     void* ptr;
     MTLRenderPassColorAttachmentDescriptorArray colorAttachments;
 
-    this(void* descriptor)
+    this(void* renderpassdescriptor)
     {
-        ptr = descriptor;
-        colorAttachments = new MTLRenderPassColorAttachmentDescriptorArray(descriptor);
+        ptr = renderpassdescriptor;
+        colorAttachments = new MTLRenderPassColorAttachmentDescriptorArray(
+            renderpassdescriptor);
     }
-}
 
-extern (C)
-{
-    void* metal_get_render_pass_descriptor(void* view);
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
 }
 
 enum MTLLoadAction
@@ -237,10 +267,12 @@ struct MTLRenderPassColorAttachmentDescriptor
 {
     void* ptr;
     private MTLLoadAction _loadAction;
-    @property void loadAction(MTLLoadAction action)
+    @property void loadAction(
+        MTLLoadAction action)
     {
         _loadAction = action;
-        metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(ptr, cast(int) _loadAction);
+        metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(
+            ptr, cast(int) _loadAction);
     }
 
     @property MTLLoadAction loadAction()
@@ -249,10 +281,12 @@ struct MTLRenderPassColorAttachmentDescriptor
     }
 
     private MTLClearColor _clearColour;
-    @property void clearColor(MTLClearColor color)
+    @property void clearColor(
+        MTLClearColor color)
     {
         _clearColour = color;
-        metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(ptr, color);
+        metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(
+            ptr, color);
     }
 
     @property MTLClearColor clearColor()
@@ -260,9 +294,10 @@ struct MTLRenderPassColorAttachmentDescriptor
         return _clearColour;
     }
 
-    this(void* descriptor)
+    this(
+        void* renderpasscolorattachmentdescriptor)
     {
-        ptr = descriptor;
+        ptr = renderpasscolorattachmentdescriptor;
     }
 
     ~this()
@@ -273,48 +308,76 @@ struct MTLRenderPassColorAttachmentDescriptor
 
 extern (C)
 {
-    void metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(void* ptr, int loadAction);
-    void metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(void* ptr, MTLClearColor color);
+    void metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(
+        void* renderpasscolorattachmentdescriptor, int loadAction);
+    void metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(
+        void* renderpasscolorattachmentdescriptor, MTLClearColor color);
 }
 
 //MTLRenderPassColorAttachmentDescriptorArray
 class MTLRenderPassColorAttachmentDescriptorArray
 {
-    void* descriptor;
-    MTLRenderPassColorAttachmentDescriptor[] array;
-
+    void* ptr;
     this(void* descriptor)
     {
-        this.descriptor = descriptor;
+        this.ptr = descriptor;
     }
 
-    MTLRenderPassColorAttachmentDescriptor opIndex(size_t index)
+    MTLRenderPassColorAttachmentDescriptor opIndex(
+        size_t index)
     {
         return MTLRenderPassColorAttachmentDescriptor(
-            metal_get_mtlrenderpasscolorattachment(descriptor, index));
+            metal_get_mtlrenderpasscolorattachment(ptr, index));
     }
 
     void opIndexAssign(void* val, size_t index)
     {
-        array[index] = MTLRenderPassColorAttachmentDescriptor(val);
-        metal_set_mtlrenderpasscolorattachment(descriptor, val, index);
+        metal_set_mtlrenderpasscolorattachment(ptr, val, index);
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
     }
 }
 
 extern (C)
 {
-    void* metal_get_mtlrenderpasscolorattachment(void* descriptor, size_t index);
-    void metal_set_mtlrenderpasscolorattachment(void* descriptor, void* val, size_t index);
+    void* metal_get_mtlrenderpasscolorattachment(
+        void* descriptor, size_t index);
+    void metal_set_mtlrenderpasscolorattachment(
+        void* descriptor, void* val, size_t index);
+}
+
+//MTLPrimitiveType
+enum MTLPrimitiveType
+{
+    triangle = 3,
 }
 
 //MTLRenderCommandEncoder
 class MTLRenderCommandEncoder
 {
     void* ptr;
-
-    this(void* commandEncoder)
+    this(
+        void* renderCommandEncoder)
     {
-        this.ptr = commandEncoder;
+        this.ptr = renderCommandEncoder;
+    }
+
+    void setRenderPipelineState(MTLRenderPipelineState state)
+    {
+        metal_MTLRenderCommandEncoder_setRenderPipelineState(this.ptr, state.ptr);
+    }
+
+    void setVertexBuffer(MTLBuffer buffer, int offset, int index)
+    {
+        metal_MTLRenderCommandEncoder_setVertexBuffer(this.ptr, buffer.ptr, offset, index);
+    }
+
+    void drawPrimitives(MTLPrimitiveType type, int vertexStart, int vertexCount)
+    {
+        metal_MTLRenderCommandEncoder_drawPrimitives(this.ptr, cast(int) type, vertexStart, vertexCount);
     }
 
     void endEncoding()
@@ -330,15 +393,252 @@ class MTLRenderCommandEncoder
 
 extern (C)
 {
+    void metal_MTLRenderCommandEncoder_setRenderPipelineState(
+        void* rendercommandencoder, void* renderpipelinestate);
+    void metal_MTLRenderCommandEncoder_setVertexBuffer(void* rendercommandencoder, void* buffer, int offset, int index);
+    void metal_MTLRenderCommandEncoder_drawPrimitives(void* rendercommandencoder, int primitivetype, int vertexstart, int vertexcount);
     void metal_end_encoding(void* encoder);
 }
 
 struct MTLDrawable
 {
     void* ptr;
-
     this(void* drawable)
     {
         this.ptr = drawable;
+    }
+}
+
+class MTLLibrary
+{
+    void* ptr;
+    this(void* library)
+    {
+        this.ptr = library;
+    }
+
+    MTLFunction makeFunction(string name)
+    {
+        return new MTLFunction(metal_makeFunction(this.ptr, name
+                .ns));
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
+}
+
+extern (C)
+{
+    void* metal_makeFunction(void* inLibrary, void* inhavolt);
+}
+
+class MTLFunction
+{
+    void* ptr;
+    this(void* mtlfunction)
+    {
+        this.ptr = mtlfunction;
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
+}
+//TO BE COMPLETED
+struct MTLCompileOptions
+{
+
+}
+
+import core.stdc.stdlib : malloc, free;
+
+extern (C) void* objc_getClass(
+    const(char)* name);
+extern (C) void* sel_registerhavolt(
+    const(char)* str);
+extern (C) void* objc_msgSend(void* receiver, void* selector, ...);
+
+alias NSString = void*;
+
+@property NSString ns(string s)
+{
+    auto cls = objc_getClass("NSString");
+    auto sel = sel_registerhavolt(
+        "stringWithUTF8String:");
+    return cast(NSString) objc_msgSend(cls, sel, s
+            .ptr);
+}
+
+class MTLBuffer
+{
+    void* ptr;
+    this(void* buffer)
+    {
+        this.ptr = buffer;
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
+}
+
+class MTLRenderPipelineDescriptor
+{
+    void* ptr;
+    MTLRenderPipelineColorAttachmentDescriptorArray colorAttachments;
+    @property MTLFunction vertexFunction()
+    {
+        return new MTLFunction(metal_MTLRenderPipelineDescriptor_get_vertexFunction(
+                ptr));
+    }
+
+    @property vertexFunction(
+        MTLFunction func)
+    {
+        metal_MTLRenderPipelineDescriptor_set_vertexFunction(
+            ptr, func.ptr);
+    }
+
+    @property MTLFunction fragmentFunction()
+    {
+        return new MTLFunction(metal_MTLRenderPipelineDescriptor_get_fragmentFunction(
+                ptr));
+    }
+
+    @property fragmentFunction(
+        MTLFunction func)
+    {
+        metal_MTLRenderPipelineDescriptor_set_fragmentFunction(
+            ptr, func.ptr);
+    }
+
+    this()
+    {
+        ptr = metal_create_MTLRenderPipelineDescriptor();
+        colorAttachments = new MTLRenderPipelineColorAttachmentDescriptorArray(
+            metal_MTLRenderPipelineDescriptor_get_colorAttachments(this.ptr));
+    }
+
+    this(void* descriptor)
+    {
+        ptr = descriptor;
+        colorAttachments = new MTLRenderPipelineColorAttachmentDescriptorArray(
+            metal_MTLRenderPipelineDescriptor_get_colorAttachments(this.ptr));
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
+}
+
+extern (C)
+{
+    void* metal_create_MTLRenderPipelineDescriptor();
+    void* metal_MTLRenderPipelineDescriptor_get_vertexFunction(
+        void* mtlrenderpipelinedescriptor);
+    void metal_MTLRenderPipelineDescriptor_set_vertexFunction(
+        void* mtlrenderpipelinedescriptor, void* mtlfunction);
+    void* metal_MTLRenderPipelineDescriptor_get_fragmentFunction(
+        void* mtlrenderpipelinedescriptor);
+    void metal_MTLRenderPipelineDescriptor_set_fragmentFunction(
+        void* mtlrenderpipelinedescriptor, void* mtlfunction);
+    void* metal_MTLRenderPipelineDescriptor_get_colorAttachments(void* mtlrenderpipelinedescriptor);
+}
+struct MTLPixelFormat
+{
+    int pixelFormat;
+}
+
+//MTLRenderPassColorAttachmentDescriptor
+struct MTLRenderPipelineColorAttachmentDescriptor
+{
+    void* ptr;
+    private MTLPixelFormat _pixelFormat;
+    @property void pixelFormat(
+        MTLPixelFormat pixelFormat)
+    {
+        _pixelFormat = pixelFormat;
+        metal_set_mtlrenderpipelinecolorattachmentdescriptor_pixelFormat(
+            ptr, pixelFormat.pixelFormat);
+    }
+
+    @property MTLPixelFormat pixelFormat()
+    {
+        return _pixelFormat;
+    }
+
+    this(void* inPtr)
+    {
+        ptr = inPtr;
+    }
+
+    ~this()
+    {
+        metal_release_object(ptr);
+    }
+}
+
+extern (C)
+{
+    void metal_set_mtlrenderpipelinecolorattachmentdescriptor_pixelFormat(
+        void* renderPipelineColorAttachmentDescriptor, int pixelFormat);
+}
+
+class MTLRenderPipelineColorAttachmentDescriptorArray
+{
+    void* ptr;
+
+    this(void* inPtr)
+    {
+        this.ptr = inPtr;
+    }
+
+    MTLRenderPipelineColorAttachmentDescriptor opIndex(
+        size_t index)
+    {
+        return MTLRenderPipelineColorAttachmentDescriptor(
+            metal_get_mtlrenderpipelinecolorattachmentdescriptor(
+                this.ptr, index));
+    }
+
+    void opIndexAssign(void* val, size_t index)
+    {
+        metal_set_mtlrenderpipelinecolorattachmentdescriptor(
+            this.ptr, val, index);
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
+    }
+}
+
+extern (C)
+{
+    void* metal_get_mtlrenderpipelinecolorattachmentdescriptor(
+        void* renderpipelinecolorattachmentdescriptorarray, size_t index);
+    void metal_set_mtlrenderpipelinecolorattachmentdescriptor(
+        void* renderpipelinecolorattachmentdescriptorarray, void* val, size_t index);
+}
+
+//MTLRenderPipelineState
+class MTLRenderPipelineState
+{
+    void* ptr;
+
+    this(
+        void* renderpipelinestate)
+    {
+        this.ptr = renderpipelinestate;
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
     }
 }
