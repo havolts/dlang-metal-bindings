@@ -3,6 +3,7 @@ module metalrendering.library;
 
 import core.attribute : selector;
 import metalrendering.types;
+import metalrendering.mtlfunction;
 
 //MTLLibrary
 extern(Objective-C)

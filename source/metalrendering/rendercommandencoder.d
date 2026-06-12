@@ -5,7 +5,6 @@ import core.attribute : selector;
 import metalrendering.types;
 import metalrendering.renderpipelinestate;
 import metalrendering.buffer;
-import metalrendering.primitivetype;
 
 //MTLRenderCommandEncoder
 extern(Objective-C)

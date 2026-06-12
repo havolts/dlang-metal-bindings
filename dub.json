@@ -7,7 +7,6 @@
   "targetType": "library",
   "sourcePaths": ["source"],
   "importPaths": ["source"],
-  "libs": ["metalshim"],
   "lflags-osx": [
     "-L$PACKAGE_DIR/libs",
     "-framework",
@@ -15,13 +14,8 @@
     "-framework",
     "Foundation",
     "-framework",
-    "Metalkit",
+    "MetalKit",
     "-framework",
     "Cocoa"
-  ],
-  "lflags": ["-lstdc++"],
-  "preBuildCommands": [
-    "clang++ -fobjc-arc -c source/metalrendering/metal_shim.mm -o metal_shim.o",
-    "ar rcs libs/libmetalshim.a metal_shim.o"
   ]
 }

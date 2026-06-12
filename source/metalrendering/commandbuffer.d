@@ -4,6 +4,7 @@ module metalrendering.commandbuffer;
 import core.attribute : selector;
 import metalrendering.types;
 import metalrendering.drawable;
+import metalrendering.rendercommandencoder;
 
 //MTLCommandBuffer
 extern(Objective-C)

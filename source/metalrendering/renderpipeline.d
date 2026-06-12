@@ -3,6 +3,7 @@ module metalrendering.renderpipeline;
 
 import core.attribute : selector;
 import metalrendering.types;
+import metalrendering.mtlfunction;
 
 //MTLRenderPipelineDescriptor
 extern(Objective-C)
