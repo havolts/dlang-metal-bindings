@@ -3,7 +3,7 @@ module metalrendering.rendercommandencoder;
 
 import core.attribute : selector;
 import metalrendering.types;
-import metalrendering.renderpipelinestate;
+import metalrendering.renderpipeline;
 import metalrendering.buffer;
 
 //MTLRenderCommandEncoder

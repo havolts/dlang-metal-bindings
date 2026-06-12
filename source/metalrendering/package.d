@@ -9,6 +9,6 @@ public import metalrendering.drawable;
 public import metalrendering.mtlfunction;
 public import metalrendering.library;
 public import metalrendering.rendercommandencoder;
-public import metalrendering.renderpassdescriptor;
+public import metalrendering.renderpass;
 public import metalrendering.renderpipeline;
 public import metalrendering.view;

@@ -4,7 +4,7 @@ module metalrendering.view;
 import core.attribute : selector;
 import metalrendering.types;
 import metalrendering.device;
-import metalrendering.renderpassdescriptor;
+import metalrendering.renderpass;
 import metalrendering.drawable;
 
 //MTKView

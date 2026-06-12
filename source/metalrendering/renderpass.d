@@ -1,5 +1,5 @@
-//metalrendering/source/metalrendering/renderpassdescriptor.d
-module metalrendering.renderpassdescriptor;
+//metalrendering/source/metalrendering/renderpass.d
+module metalrendering.renderpass;
 
 import core.attribute : selector;
 import metalrendering.types;

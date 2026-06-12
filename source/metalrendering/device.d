@@ -6,7 +6,7 @@ import metalrendering.types;
 import metalrendering.commandqueue;
 import metalrendering.library;
 import metalrendering.buffer;
-import metalrendering.renderpipelinestate;
+import metalrendering.renderpipeline;
 
 //MTLDevice
 extern (Objective-C)
