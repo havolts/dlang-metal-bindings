@@ -6,31 +6,6 @@ import metalrendering.types;
 import std.stdio;
 import core.memory;
 
-class MTLLibrary
-{
-    void* ptr;
-    this(void* library)
-    {
-        this.ptr = library;
-    }
-
-    MTLFunction makeFunction(string name)
-    {
-        return new MTLFunction(metal_makeFunction(this.ptr, cast(void*) name
-                .ns));
-    }
-
-    ~this()
-    {
-        metal_release_object(this.ptr);
-    }
-}
-
-extern (C)
-{
-    void* metal_makeFunction(void* inLibrary, void* inhavolt);
-}
-
 class MTLFunction
 {
     void* ptr;
