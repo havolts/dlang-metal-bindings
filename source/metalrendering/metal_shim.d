@@ -1,6 +1,7 @@
 //metalrendering/source/metalrendering/metal_shim.d
 module metalrendering.metal_shim;
 import std.stdio;
+import core.memory;
 
 //Non-specific
 MTLDevice MTLCreateSystemDefaultDevice()
@@ -127,15 +128,20 @@ class MTKView
         return _clearColour;
     }
 
+    private MTLRenderPassDescriptor _currentRenderPassDescriptor;
     @property MTLRenderPassDescriptor currentRenderPassDescriptor()
     {
         return new MTLRenderPassDescriptor(
             metal_get_render_pass_descriptor(ptr));
     }
 
+    private MTLDrawable _currentDrawable;
     @property MTLDrawable currentDrawable()
     {
-        return MTLDrawable(metal_get_drawable(ptr));
+        destroy(_currentDrawable);
+        GC.free(cast(void*) _currentDrawable);  // ← PROBLEM 2
+        _currentDrawable = new MTLDrawable(metal_get_drawable(ptr));
+        return _currentDrawable;
     }
 
     @property MTLPixelFormat colorPixelFormat()
@@ -147,12 +153,10 @@ class MTKView
     {
         this.ptr = metal_create_MTKView(device.ptr, frame);
         metal_retain_object(this.ptr);
-        writeln("View made: ", ptr);
     }
 
     ~this()
     {
-        writeln("View released: ", ptr);
         metal_release_object(ptr);
     }
 }
@@ -179,8 +183,7 @@ class MTLCommandQueue
 
     MTLCommandBuffer makeCommandBuffer()
     {
-        return new MTLCommandBuffer(
-            metal_make_command_buffer(ptr));
+        return new MTLCommandBuffer(metal_make_command_buffer(ptr));
     }
 
     ~this()
@@ -206,9 +209,7 @@ class MTLCommandBuffer
     MTLRenderCommandEncoder makeRenderCommandEncoder(
         MTLRenderPassDescriptor renderpassdescriptor)
     {
-        return new MTLRenderCommandEncoder(
-            metal_make_render_command_encoder(ptr, renderpassdescriptor
-                .ptr));
+        return new MTLRenderCommandEncoder(metal_make_render_command_encoder(ptr, renderpassdescriptor.ptr));
     }
 
     void present(MTLDrawable drawable)
@@ -245,13 +246,16 @@ class MTLRenderPassDescriptor
     this(void* renderpassdescriptor)
     {
         ptr = renderpassdescriptor;
-        colorAttachments = new MTLRenderPassColorAttachmentDescriptorArray(
-            renderpassdescriptor);
+        colorAttachments = new MTLRenderPassColorAttachmentDescriptorArray(renderpassdescriptor);
+        writeln("MTLRenderPassDescriptor created");
     }
 
     ~this()
     {
+        destroy(colorAttachments);
+        GC.free(cast(void*) colorAttachments);
         metal_release_object(this.ptr);
+        writeln("MTLRenderPassDescriptor released");
     }
 }
 
@@ -271,8 +275,7 @@ struct MTLRenderPassColorAttachmentDescriptor
         MTLLoadAction action)
     {
         _loadAction = action;
-        metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(
-            ptr, cast(int) _loadAction);
+        metal_set_mtlrenderpasscolorattachmentdescriptor_load_action(ptr, cast(int) _loadAction);
     }
 
     @property MTLLoadAction loadAction()
@@ -285,8 +288,7 @@ struct MTLRenderPassColorAttachmentDescriptor
         MTLClearColor color)
     {
         _clearColour = color;
-        metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(
-            ptr, color);
+        metal_set_mtlrenderpasscolorattachmentdescriptor_clear_color(ptr, color);
     }
 
     @property MTLClearColor clearColor()
@@ -294,8 +296,7 @@ struct MTLRenderPassColorAttachmentDescriptor
         return _clearColour;
     }
 
-    this(
-        void* renderpasscolorattachmentdescriptor)
+    this(void* renderpasscolorattachmentdescriptor)
     {
         ptr = renderpasscolorattachmentdescriptor;
     }
@@ -320,6 +321,7 @@ class MTLRenderPassColorAttachmentDescriptorArray
     void* ptr;
     this(void* descriptor)
     {
+        writeln("MTLRenderPassColorAttachmentDescriptorArray");
         this.ptr = descriptor;
     }
 
@@ -338,6 +340,7 @@ class MTLRenderPassColorAttachmentDescriptorArray
     ~this()
     {
         metal_release_object(this.ptr);
+        writeln("MTLRenderPassColorAttachmentDescriptorArray released");
     }
 }
 
@@ -400,12 +403,17 @@ extern (C)
     void metal_end_encoding(void* encoder);
 }
 
-struct MTLDrawable
+class MTLDrawable
 {
     void* ptr;
     this(void* drawable)
     {
         this.ptr = drawable;
+    }
+
+    ~this()
+    {
+        metal_release_object(this.ptr);
     }
 }
 

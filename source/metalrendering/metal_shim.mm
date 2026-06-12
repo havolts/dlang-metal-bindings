@@ -73,7 +73,7 @@ extern "C" {
     void* metal_get_drawable(void* view)
     {
         MTKView* mtkView = (__bridge MTKView*)view;
-        return (__bridge_retained void*)mtkView.currentDrawable;
+        return (__bridge void*)mtkView.currentDrawable;
     }
     int metal_get_colorPixelFormat(void* view)
     {
@@ -151,7 +151,7 @@ extern "C" {
     void metal_MTLRenderCommandEncoder_drawPrimitives(void* rendercommandencoder,int primitivetype, int vertexstart, int vertexcount)
     {
         id<MTLRenderCommandEncoder> renderCommandEncoder = (__bridge id<MTLRenderCommandEncoder>) rendercommandencoder;
-        [renderCommandEncoder drawPrimitives:primitivetype vertexStart:(NSUInteger)vertexstart vertexCount:(NSUInteger)vertexcount];
+        [renderCommandEncoder drawPrimitives:(MTLPrimitiveType)primitivetype vertexStart:(NSUInteger)vertexstart vertexCount:(NSUInteger)vertexcount];
     }
 
     void metal_end_encoding(void* encoder)
@@ -205,7 +205,7 @@ extern "C" {
     void metal_set_mtlrenderpipelinecolorattachmentdescriptor_pixelFormat(void* renderpipelinecolorattachmentdescriptor, int pixelFormat)
     {
         MTLRenderPipelineColorAttachmentDescriptor* descriptor = (__bridge MTLRenderPipelineColorAttachmentDescriptor*) renderpipelinecolorattachmentdescriptor;
-        MTLPixelFormat pf = (unsigned long)pixelFormat;
+        MTLPixelFormat pf = (MTLPixelFormat)pixelFormat;
         descriptor.pixelFormat = pf;
     }
 
