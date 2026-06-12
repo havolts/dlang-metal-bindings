@@ -1,8 +1,12 @@
 {
   "authors": ["havolt"],
   "copyright": "Copyright © 2025, havolt",
-  "description": "A minimal Metal rendering package using the Metal Graphics shaders.",
+  "description": "A minimal Metal rendering library.",
   "license": "proprietary",
   "name": "metalrendering",
-  "targetType": "library"
+  "targetType": "library",
+  "sourcePaths": ["source"],
+  "importPaths": ["source"],
+  "libs": ["MetalModule"],
+  "lflags": []
 }
