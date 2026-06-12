@@ -6,31 +6,6 @@ import metalrendering.types;
 import std.stdio;
 import core.memory;
 
-//MTLCommandQueue
-class MTLCommandQueue
-{
-    void* ptr;
-    this(void* commandQueue)
-    {
-        ptr = commandQueue;
-    }
-
-    MTLCommandBuffer makeCommandBuffer()
-    {
-        return new MTLCommandBuffer(metal_make_command_buffer(ptr));
-    }
-
-    ~this()
-    {
-        metal_release_object(ptr);
-    }
-}
-
-extern (C)
-{
-    void* metal_make_command_buffer(void* commandQueue);
-}
-
 //MTLCommandBuffer
 class MTLCommandBuffer
 {
