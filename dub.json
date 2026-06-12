@@ -3,5 +3,6 @@
   "copyright": "Copyright © 2025, havolt",
   "description": "A minimal Metal rendering package using the Metal Graphics shaders.",
   "license": "proprietary",
-  "name": "metalrendering"
+  "name": "metalrendering",
+  "targetType": "library"
 }

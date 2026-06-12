@@ -1,4 +1,4 @@
-module macoswindowing.metalview;
+module metalrendering.mtkview;
 
 extern (C)
 {
