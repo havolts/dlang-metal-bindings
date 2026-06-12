@@ -6,51 +6,6 @@ import metalrendering.types;
 import std.stdio;
 import core.memory;
 
-//MTLRenderCommandEncoder
-class MTLRenderCommandEncoder
-{
-    void* ptr;
-    this(
-        void* renderCommandEncoder)
-    {
-        this.ptr = renderCommandEncoder;
-    }
-
-    void setRenderPipelineState(MTLRenderPipelineState state)
-    {
-        metal_MTLRenderCommandEncoder_setRenderPipelineState(this.ptr, state.ptr);
-    }
-
-    void setVertexBuffer(MTLBuffer buffer, int offset, int index)
-    {
-        metal_MTLRenderCommandEncoder_setVertexBuffer(this.ptr, buffer.ptr, offset, index);
-    }
-
-    void drawPrimitives(MTLPrimitiveType type, int vertexStart, int vertexCount)
-    {
-        metal_MTLRenderCommandEncoder_drawPrimitives(this.ptr, cast(int) type, vertexStart, vertexCount);
-    }
-
-    void endEncoding()
-    {
-        metal_end_encoding(ptr);
-    }
-
-    ~this()
-    {
-        metal_release_object(ptr);
-    }
-}
-
-extern (C)
-{
-    void metal_MTLRenderCommandEncoder_setRenderPipelineState(
-        void* rendercommandencoder, void* renderpipelinestate);
-    void metal_MTLRenderCommandEncoder_setVertexBuffer(void* rendercommandencoder, void* buffer, int offset, int index);
-    void metal_MTLRenderCommandEncoder_drawPrimitives(void* rendercommandencoder, int primitivetype, int vertexstart, int vertexcount);
-    void metal_end_encoding(void* encoder);
-}
-
 class MTLDrawable
 {
     void* ptr;
