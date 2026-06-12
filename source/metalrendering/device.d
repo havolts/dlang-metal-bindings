@@ -12,10 +12,10 @@ import metalrendering.renderpipeline;
 extern (Objective-C)
 extern class MTLDevice : NSObject
 {
-    MTLCommandQueue newCommandQueue() @selector("newCommandQueue");
-    MTLLibrary newLibraryWithSource(NSString source, void* options, void* error) @selector("newLibraryWithSource:options:error:");
-    MTLBuffer newBufferWithBytes(const void* bytes, size_t length, uint options) @selector("newBufferWithBytes:length:options:");
-    MTLRenderPipelineState newRenderPipelineStateWithDescriptor(MTLRenderPipelineDescriptor rpd, void* error) @selector("newRenderPipelineStateWithDescriptor:error:");
+    MTLCommandQueue makeCommandQueue() @selector("newCommandQueue");
+    MTLLibrary makeLibrary(NSString source, void* options, void* error) @selector("newLibraryWithSource:options:error:");
+    MTLBuffer makeBuffer(const void* bytes, size_t length, uint options) @selector("newBufferWithBytes:length:options:");
+    MTLRenderPipelineState makeRenderPipelineState(MTLRenderPipelineDescriptor rpd, void* error) @selector("newRenderPipelineStateWithDescriptor:error:");
 }
 
 extern (C) MTLDevice MTLCreateSystemDefaultDevice();

@@ -51,9 +51,9 @@ enum MTLPrimitiveType : uint
 
 enum MTLLoadAction : uint
 {
-    MTLLoadActionDontCare = 0,
-    MTLLoadActionLoad = 1,
-    MTLLoadActionClear = 2,
+    dontCare = 0,
+    load = 1,
+    clear = 2,
 }
 
 enum MTLResourceOptions : uint

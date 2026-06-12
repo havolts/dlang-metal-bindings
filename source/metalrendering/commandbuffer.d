@@ -11,7 +11,7 @@ import metalrendering.renderpass;
 extern(Objective-C)
 extern class MTLCommandBuffer : NSObject
 {
-    MTLRenderCommandEncoder renderCommandEncoderWithDescriptor(MTLRenderPassDescriptor descriptor) @selector("renderCommandEncoderWithDescriptor:");
-    void presentDrawable(MTLDrawable drawable) @selector("presentDrawable:");
+    MTLRenderCommandEncoder makeRenderCommandEncoder(MTLRenderPassDescriptor descriptor) @selector("renderCommandEncoderWithDescriptor:");
+    void present(MTLDrawable drawable) @selector("presentDrawable:");
     void commit() @selector("commit");
 }

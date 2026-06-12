@@ -9,5 +9,5 @@ import metalrendering.commandbuffer;
 extern(Objective-C)
 extern class MTLCommandQueue : NSObject
 {
-    MTLCommandBuffer commandBuffer() @selector("commandBuffer");
+    MTLCommandBuffer makeCommandBuffer() @selector("commandBuffer");
 }
