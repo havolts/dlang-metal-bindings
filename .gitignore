@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/metalrendering
+metalrendering.so
+metalrendering.dylib
+metalrendering.dll
+metalrendering.a
+metalrendering.lib
+metalrendering-test-*
+*.exe
+*.pdb
+*.o
+*.obj
+*.lst

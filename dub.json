@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"havolt"
+	],
+	"copyright": "Copyright © 2025, havolt",
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "metalrendering"
+}
