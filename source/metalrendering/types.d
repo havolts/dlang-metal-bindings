@@ -26,6 +26,14 @@ extern class NSError : NSObject
 {
 }
 
+extern (Objective-C)
+extern class NSAutoreleasePool : NSObject
+{
+    static NSAutoreleasePool alloc() @selector("alloc");
+    NSAutoreleasePool init() @selector("init");
+    void drain() @selector("drain");
+}
+
 struct MTLClearColor
 {
     double red, green, blue, alpha;
