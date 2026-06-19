@@ -8,7 +8,6 @@
   "sourcePaths": ["source"],
   "importPaths": ["source"],
   "lflags-osx": [
-    "-L$PACKAGE_DIR/libs",
     "-framework",
     "Metal",
     "-framework",
