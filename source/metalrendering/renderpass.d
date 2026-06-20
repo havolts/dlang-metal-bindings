@@ -15,8 +15,10 @@ extern class MTLRenderPassDescriptor : NSObject
 extern (Objective-C)
 extern class MTLRenderPassColorAttachmentDescriptor : NSObject
 {
+    void texture(MTLTexture texture) @selector("setTexture:");
     void loadAction(MTLLoadAction action) @selector("setLoadAction:");
     void clearColor(MTLClearColor color) @selector("setClearColor:");
+    void storeAction(MTLStoreAction action) @selector("setStoreAction:");
 }
 
 extern (Objective-C)

@@ -34,6 +34,19 @@ extern class NSAutoreleasePool : NSObject
     void drain() @selector("drain");
 }
 
+extern (Objective-C)
+extern class MTLTexture : NSObject
+{
+    NSUInteger width() @selector("width");
+    NSUInteger height() @selector("height");
+    MTLPixelFormat pixelFormat() @selector("pixelFormat");
+}
+
+enum MTLStoreAction
+{
+    store = 1,
+}
+
 struct MTLClearColor
 {
     double red, green, blue, alpha;
@@ -52,19 +65,20 @@ enum MTLPixelFormat : uint
     BGRA8Unorm = 80,
 }
 
-enum MTLPrimitiveType : uint
+enum MTLPrimitiveType : size_t
 {
     triangle = 3,
 }
 
-enum MTLLoadAction : uint
+enum MTLLoadAction : size_t
 {
     dontCare = 0,
     load = 1,
     clear = 2,
 }
 
-enum MTLResourceOptions : uint
+enum MTLResourceOptions : size_t
 {
     storageModeShared = 0,
 }
+alias NSUInteger = size_t;

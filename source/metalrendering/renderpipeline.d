@@ -16,6 +16,8 @@ extern class MTLRenderPipelineDescriptor : NSObject
     void vertexFunction(MTLFunction vertFunction) @selector("setVertexFunction:");
     MTLFunction fragmentFunction() @selector("fragmentFunction");
     void fragmentFunction(MTLFunction fragFunction) @selector("setFragmentFunction:");
+    NSString label() @selector("label");
+    void label(NSString label) @selector("setLabel:");
 }
 
 extern (Objective-C)

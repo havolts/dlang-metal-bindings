@@ -8,5 +8,5 @@ import metalrendering.types;
 extern(Objective-C)
 extern class MTLBuffer : NSObject
 {
-
+    void* contents() @selector("contents");
 }

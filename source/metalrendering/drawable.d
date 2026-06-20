@@ -9,4 +9,5 @@ extern(Objective-C)
 extern class MTLDrawable : NSObject
 {
     void present() @selector("present");
+    MTLTexture texture() @selector("texture");
 }
