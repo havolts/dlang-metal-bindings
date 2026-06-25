@@ -18,6 +18,7 @@ extern class MTLRenderPipelineDescriptor : NSObject
     void fragmentFunction(MTLFunction fragFunction) @selector("setFragmentFunction:");
     NSString label() @selector("label");
     void label(NSString label) @selector("setLabel:");
+    void depthAttachmentPixelFormat(MTLPixelFormat pixelFormat) @selector("setDepthAttachmentPixelFormat:");
 }
 
 extern (Objective-C)

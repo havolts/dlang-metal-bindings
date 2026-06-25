@@ -19,4 +19,5 @@ extern class MTKView : NSObject
     MTLDrawable currentDrawable() @selector ("currentDrawable");
     MTLPixelFormat colorPixelFormat() @selector ("colorPixelFormat");
     void colorPixelFormat(MTLPixelFormat colorPF) @selector("setColorPixelFormat:");
+    void depthStencilPixelFormat(MTLPixelFormat pixelFormat) @selector("setDepthStencilPixelFormat:");
 }

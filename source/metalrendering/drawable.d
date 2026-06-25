@@ -2,7 +2,7 @@
 module metalrendering.drawable;
 
 import core.attribute : selector;
-import metalrendering.types;
+import metalrendering;
 
 //MTLDrawable
 extern(Objective-C)

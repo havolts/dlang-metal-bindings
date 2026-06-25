@@ -12,3 +12,5 @@ public import metalrendering.rendercommandencoder;
 public import metalrendering.renderpass;
 public import metalrendering.renderpipeline;
 public import metalrendering.view;
+public import metalrendering.texture;
+public import metalrendering.depthstencil;
