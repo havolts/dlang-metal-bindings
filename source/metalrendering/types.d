@@ -78,8 +78,8 @@ enum MTLResourceOptions : size_t
 
 enum MTLIndexType : size_t
 {
-    uint16 = 1,
-    uint32 = 2,
+    uint16 = 0,
+    uint32 = 1,
 }
 
 enum MTLCompareFunction : size_t

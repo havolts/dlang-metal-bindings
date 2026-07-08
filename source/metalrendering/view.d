@@ -20,4 +20,6 @@ extern class MTKView : NSObject
     MTLPixelFormat colorPixelFormat() @selector ("colorPixelFormat");
     void colorPixelFormat(MTLPixelFormat colorPF) @selector("setColorPixelFormat:");
     void depthStencilPixelFormat(MTLPixelFormat pixelFormat) @selector("setDepthStencilPixelFormat:");
+    void isPaused(bool query) @selector("setPaused:");
+    void enableSetNeedsDisplay(bool query) @selector("setEnableSetNeedsDisplay:");
 }
