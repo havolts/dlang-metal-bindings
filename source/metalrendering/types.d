@@ -22,8 +22,27 @@ NSString ns(string s)
 }
 
 extern (Objective-C)
+extern class NSURL : NSObject
+{
+    static NSURL URLWithString(NSString urlString) @selector("URLWithString:");
+    static NSURL fileURLWithPath(NSString path) @selector("fileURLWithPath:");
+}
+
+extern (Objective-C)
 extern class NSError : NSObject
 {
+}
+
+extern (Objective-C)
+extern struct NSRange
+{
+    NSUInteger location;
+    NSUInteger length;
+}
+
+NSRange NSMakeRange(NSUInteger loc, NSUInteger len)
+{
+    return NSRange(loc, len);
 }
 
 extern (Objective-C)
@@ -55,7 +74,10 @@ extern (C) struct CGRect
 
 enum MTLPixelFormat : uint
 {
+    R8Unorm = 10,
+    R8Unorm_sRGB = 11,
     BGRA8Unorm = 80,
+    BGRA8Unorm_sRGB = 81,
     Depth32Float = 252,
 }
 

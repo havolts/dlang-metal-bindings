@@ -13,6 +13,8 @@ extern class MTLRenderCommandEncoder : NSObject
     void setFrontFacingWinding(MTLWinding winding) @selector("setFrontFacingWinding:");
     void setCullMode(MTLCullMode cullMode) @selector("setCullMode:");
     void setVertexBuffer(MTLBuffer vertexBuffer, size_t offset, size_t index) @selector("setVertexBuffer:offset:atIndex:");
+    void setFragmentTexture(MTLTexture texture, size_t index) @selector("setFragmentTexture:atIndex:");
+    void setFragmentTextures(void** textures, NSRange range) @selector("setFragmentTextures:withRange:");
     void drawPrimitives(MTLPrimitiveType primitiveType, size_t vertexStart, size_t vertexCount) @selector("drawPrimitives:vertexStart:vertexCount:");
     void drawIndexedPrimitives(MTLPrimitiveType primitiveType, NSUInteger indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, NSUInteger indexBufferOffset) @selector("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:");
     void endEncoding() @selector("endEncoding");
