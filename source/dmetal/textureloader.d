@@ -1,4 +1,4 @@
-module textureloader;
+module dmetal.textureloader;
 
 import core.attribute : selector;
 import dmetal;

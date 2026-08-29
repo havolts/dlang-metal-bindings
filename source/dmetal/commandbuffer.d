@@ -1,5 +1,5 @@
 //d-metal/source/commandbuffer.d
-module commandbuffer;
+module dmetal.commandbuffer;
 
 import core.attribute : selector;
 import dmetal;

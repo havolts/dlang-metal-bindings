@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/device.d
-module device;
+module dmetal.device;
 
 import core.attribute : selector;
 import dmetal;

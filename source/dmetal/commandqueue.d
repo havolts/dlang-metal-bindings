@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/commandqueue.d
-module commandqueue;
+module dmetal.commandqueue;
 
 import core.attribute : selector;
 import dmetal;

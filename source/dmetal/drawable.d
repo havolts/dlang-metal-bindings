@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/drawable.d
-module drawable;
+module dmetal.drawable;
 
 import core.attribute : selector;
 import dmetal;

@@ -1,4 +1,4 @@
-module texture;
+module dmetal.texture;
 
 import core.attribute : selector;
 import dmetal;

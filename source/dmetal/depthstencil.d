@@ -1,4 +1,4 @@
-module depthstencil;
+module dmetal.depthstencil;
 
 import core.attribute : selector;
 import dmetal;

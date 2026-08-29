@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/renderpass.d
-module renderpass;
+module dmetal.renderpass;
 import core.attribute : selector;
 import dmetal;
 

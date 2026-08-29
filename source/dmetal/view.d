@@ -1,5 +1,5 @@
 //metalrendering/source/view.d
-module view;
+module dmetal.view;
 
 import core.attribute : selector;
 import dmetal;

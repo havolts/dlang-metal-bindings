@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/buffer.d
-module buffer;
+module dmetal.buffer;
 
 import core.attribute : selector;
 import dmetal;

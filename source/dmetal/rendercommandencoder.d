@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/rendercommandencoder.d
-module rendercommandencoder;
+module dmetal.rendercommandencoder;
 
 import core.attribute : selector;
 import dmetal;

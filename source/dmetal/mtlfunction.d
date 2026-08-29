@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/mtlfunction.d
-module mtlfunction;
+module dmetal.mtlfunction;
 
 import core.attribute : selector;
 import dmetal;

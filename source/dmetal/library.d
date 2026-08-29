@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/library.d
-module library;
+module dmetal.library;
 
 import core.attribute : selector;
 import dmetal;

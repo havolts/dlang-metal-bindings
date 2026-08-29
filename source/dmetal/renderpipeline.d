@@ -1,5 +1,5 @@
 //metalrendering/source/metalrendering/renderpipeline.d
-module renderpipeline;
+module dmetal.renderpipeline;
 
 import core.attribute : selector;
 import dmetal;

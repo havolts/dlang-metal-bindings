@@ -1,4 +1,4 @@
-module types;
+module dmetal.types;
 
 import core.attribute : selector;
 
