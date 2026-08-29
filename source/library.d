@@ -1,9 +1,9 @@
 //metalrendering/source/metalrendering/library.d
-module metalrendering.library;
+module library;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.mtlfunction;
+import types;
+import mtlfunction;
 
 //MTLLibrary
 extern(Objective-C)

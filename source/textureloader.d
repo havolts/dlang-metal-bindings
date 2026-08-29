@@ -1,9 +1,9 @@
-module metalrendering.textureloader;
+module textureloader;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.device;
-import metalrendering.texture;
+import types;
+import device;
+import texture;
 
 extern (Objective-C)
 extern class MTKTextureLoader : NSObject

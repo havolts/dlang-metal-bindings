@@ -1,8 +1,8 @@
 //metalrendering/source/metalrendering/drawable.d
-module metalrendering.drawable;
+module drawable;
 
 import core.attribute : selector;
-import metalrendering;
+import dmetal;
 
 //MTLDrawable
 extern(Objective-C)

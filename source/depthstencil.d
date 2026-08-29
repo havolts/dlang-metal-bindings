@@ -1,7 +1,7 @@
-module metalrendering.depthstencil;
+module depthstencil;
 
 import core.attribute : selector;
-import metalrendering.types;
+import types;
 
 extern (Objective-C)
 extern class MTLDepthStencilState : NSObject

@@ -1,8 +1,8 @@
 //metalrendering/source/metalrendering/mtlfunction.d
-module metalrendering.mtlfunction;
+module mtlfunction;
 
 import core.attribute : selector;
-import metalrendering.types;
+import types;
 
 //MTLFunction
 extern(Objective-C)

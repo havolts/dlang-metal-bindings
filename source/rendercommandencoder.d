@@ -1,8 +1,8 @@
 //metalrendering/source/metalrendering/rendercommandencoder.d
-module metalrendering.rendercommandencoder;
+module rendercommandencoder;
 
 import core.attribute : selector;
-import metalrendering;
+import dmetal;
 
 //MTLRenderCommandEncoder
 extern(Objective-C)

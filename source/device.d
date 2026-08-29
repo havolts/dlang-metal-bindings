@@ -1,8 +1,8 @@
 //metalrendering/source/metalrendering/device.d
-module metalrendering.device;
+module device;
 
 import core.attribute : selector;
-import metalrendering;
+import dmetal;
 
 //MTLDevice
 extern (Objective-C)

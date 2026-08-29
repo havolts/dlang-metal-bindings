@@ -1,9 +1,9 @@
 //metalrendering/source/metalrendering/commandqueue.d
-module metalrendering.commandqueue;
+module commandqueue;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.commandbuffer;
+import types;
+import commandbuffer;
 
 //MTLCommandQueue
 extern(Objective-C)

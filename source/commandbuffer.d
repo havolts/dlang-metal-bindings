@@ -1,11 +1,11 @@
-//metalrendering/source/metalrendering/commandbuffer.d
-module metalrendering.commandbuffer;
+//d-metal/source/commandbuffer.d
+module commandbuffer;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.drawable;
-import metalrendering.rendercommandencoder;
-import metalrendering.renderpass;
+import types;
+import drawable;
+import rendercommandencoder;
+import renderpass;
 
 //MTLCommandBuffer
 extern(Objective-C)

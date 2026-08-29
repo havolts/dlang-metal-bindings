@@ -1,11 +1,11 @@
-//metalrendering/source/metalrendering/view.d
-module metalrendering.view;
+//metalrendering/source/view.d
+module view;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.device;
-import metalrendering.renderpass;
-import metalrendering.drawable;
+import types;
+import device;
+import renderpass;
+import drawable;
 
 //MTKView
 extern(Objective-C)

@@ -1,7 +1,7 @@
-module metalrendering.texture;
+module texture;
 
 import core.attribute : selector;
-import metalrendering.types;
+import types;
 
 extern (Objective-C)
 extern class MTLTexture : NSObject

@@ -1,7 +1,7 @@
 //metalrendering/source/metalrendering/renderpass.d
-module metalrendering.renderpass;
+module renderpass;
 import core.attribute : selector;
-import metalrendering;
+import dmetal;
 
 //MTLRenderPassDescriptor
 extern(Objective-C)

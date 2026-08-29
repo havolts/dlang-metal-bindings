@@ -1,4 +1,4 @@
-module metalrendering.types;
+module types;
 
 import core.attribute : selector;
 

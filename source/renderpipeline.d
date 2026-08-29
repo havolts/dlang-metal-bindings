@@ -1,9 +1,9 @@
 //metalrendering/source/metalrendering/renderpipeline.d
-module metalrendering.renderpipeline;
+module renderpipeline;
 
 import core.attribute : selector;
-import metalrendering.types;
-import metalrendering.mtlfunction;
+import types;
+import mtlfunction;
 
 //MTLRenderPipelineDescriptor
 extern(Objective-C)

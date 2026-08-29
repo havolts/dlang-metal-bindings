@@ -1,8 +1,8 @@
 //metalrendering/source/metalrendering/buffer.d
-module metalrendering.buffer;
+module buffer;
 
 import core.attribute : selector;
-import metalrendering.types;
+import types;
 
 //MTLBuffer
 extern(Objective-C)
