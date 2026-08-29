@@ -2,8 +2,7 @@
 module commandqueue;
 
 import core.attribute : selector;
-import types;
-import commandbuffer;
+import dmetal;
 
 //MTLCommandQueue
 extern(Objective-C)

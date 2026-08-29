@@ -2,7 +2,7 @@
 module buffer;
 
 import core.attribute : selector;
-import types;
+import dmetal;
 
 //MTLBuffer
 extern(Objective-C)

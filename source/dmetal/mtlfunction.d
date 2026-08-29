@@ -2,7 +2,7 @@
 module mtlfunction;
 
 import core.attribute : selector;
-import types;
+import dmetal;
 
 //MTLFunction
 extern(Objective-C)

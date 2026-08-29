@@ -2,10 +2,7 @@
 module commandbuffer;
 
 import core.attribute : selector;
-import types;
-import drawable;
-import rendercommandencoder;
-import renderpass;
+import dmetal;
 
 //MTLCommandBuffer
 extern(Objective-C)

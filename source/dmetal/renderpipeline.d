@@ -2,8 +2,7 @@
 module renderpipeline;
 
 import core.attribute : selector;
-import types;
-import mtlfunction;
+import dmetal;
 
 //MTLRenderPipelineDescriptor
 extern(Objective-C)

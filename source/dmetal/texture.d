@@ -1,7 +1,7 @@
 module texture;
 
 import core.attribute : selector;
-import types;
+import dmetal;
 
 extern (Objective-C)
 extern class MTLTexture : NSObject

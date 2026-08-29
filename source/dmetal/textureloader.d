@@ -1,9 +1,7 @@
 module textureloader;
 
 import core.attribute : selector;
-import types;
-import device;
-import texture;
+import dmetal;
 
 extern (Objective-C)
 extern class MTKTextureLoader : NSObject

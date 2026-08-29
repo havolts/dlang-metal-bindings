@@ -2,10 +2,7 @@
 module view;
 
 import core.attribute : selector;
-import types;
-import device;
-import renderpass;
-import drawable;
+import dmetal;
 
 //MTKView
 extern(Objective-C)

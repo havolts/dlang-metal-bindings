@@ -2,8 +2,7 @@
 module library;
 
 import core.attribute : selector;
-import types;
-import mtlfunction;
+import dmetal;
 
 //MTLLibrary
 extern(Objective-C)
